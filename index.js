@@ -1,6 +1,5 @@
-"use strict";
-
-const data = require('./data');
+const cityCodes = require('./cityCodes');
+const airlines = require('./airlines')
 const inquirer = require('inquirer');
 
 console.log("------------------------------------------");
@@ -13,26 +12,36 @@ const continents = [
     "North America",
     "Central America and South America",
     "Asia and the South West Pacific",
+    "Middle East",
     "Africa",
     "Europe"
 ];
 
-let numberOfQuestions;
-let exerciceData = [];
+var numberOfQuestions;
+var exerciceData = [];
+var includeAirlines = true;
 
-let settingQuestions = [
+var settingQuestions = [
+    {
+        type: 'confirm',
+        message: 'Please select if you want to include airlines codes questions: ',
+        name: 'airlines',
+        default: true,
+        validate: function (answer) {
+            includeAirlines = !!answer;
+            console.log(includeAirlines);
+            return true;
+        }
+    },
     {
         type: 'checkbox',
         message: 'Please select the continents you would like to practice: ',
         name: 'continents',
         choices: continents,
         validate: function (answer) {
-            if (answer.length < 1) {
-                return 'You must choose at least one continent.';
-            }
-            for (let i=0; i < data.length; i++) {
-                if (answer.indexOf(data[i].continent) > -1) {
-                    exerciceData.push(data[i]);
+            for (let i=0; i < cityCodes.length; i++) {
+                if (answer.indexOf(cityCodes[i].continent) > -1) {
+                    exerciceData.push(cityCodes[i]);
                 }
             }
 
@@ -44,21 +53,23 @@ let settingQuestions = [
         name: 'numberOfQuestions',
         message: 'How many questions would you like to practice?',
         default: function () {
-            return exerciceData.length;
+            if (includeAirlines) return exerciceData.length + airlines.length - 2;
+            return exerciceData.length - 1;
         },
         validate: function (answer) {
+            var maxNumber = exerciceData.length -1;
+            if (includeAirlines) maxNumber += airlines.length - 1;
             if (answer < 1) {
                 return 'You must choose at least one question.';
             }
-            if (answer > exerciceData.length) {
-                return 'The selected continents only allow ' + exerciceData.length + " combinations";
+            if (answer > maxNumber) {
+                return 'The selected continents only allow ' + maxNumber + " combinations";
             }
-            numberOfQuestions = answer - 1;
+            numberOfQuestions = answer;
             return true;
         }
     }
 ];
-
 
 
 inquirer.prompt(settingQuestions)
@@ -69,14 +80,14 @@ inquirer.prompt(settingQuestions)
     });
 
 
-function afterSettingQuestions() {
+function afterSettingQuestions(settingsData) {
     return exerciceData;
 }
 
 function main(answers) {
     "use strict";
 
-    let questions = prepareQuestions(answers);
+    var questions = prepareQuestions(answers);
 
     inquirer.prompt(questions).then(function() {
         console.log("Well Done!");
@@ -84,22 +95,40 @@ function main(answers) {
 
 }
 
-function prepareQuestions(answers) {ß
+function prepareQuestions(selectedContinentsCityCodes) {
 
-    let askedBuffer = [];
+    let askedBufferCityCodes = [];
+    let askedBufferAirlines = [];
     let questions = [];
     let q = 0;
 
-    console.log(numberOfQuestions);
-
     while (q<numberOfQuestions) {
-        let index = getRandomInt(0, answers.length - 1, askedBuffer);
-        let questionData = answers[index];
-        let type = (getRandomInt(0,1,[]) === 0);
+        let questionData = {};
+        let index = 0;
+        if (askedBufferAirlines.length === airlines.length) {
+            console.log("All airlines asked!");
+            type = getRandomInt(2,3,[]);
+            index = getRandomInt(0, selectedContinentsCityCodes.length - 1, askedBufferCityCodes);
+            questionData = selectedContinentsCityCodes[index];
+        } else if (askedBufferCityCodes.length === selectedContinentsCityCodes.length || selectedContinentsCityCodes.length === 0) {
+            type = getRandomInt(4,5,[]);
+            index = getRandomInt(0, airlines.length - 1, askedBufferAirlines);
+            questionData = airlines[index];
+        } else {
+            if(getRandomInt(0,1,[])) {
+                type = getRandomInt(2,3,[]);
+                index = getRandomInt(0, selectedContinentsCityCodes.length - 1, askedBufferCityCodes);
+                questionData = selectedContinentsCityCodes[index];
+            } else {
+                type = getRandomInt(4,5,[]);
+                index = getRandomInt(0, airlines.length - 1, askedBufferAirlines);
+                questionData = airlines[index];
+            }
+        }
 
-        if(type) {
-            questions.push(
-                {
+        switch (type) {
+            case 0:
+                questions.push({
                     type: 'Input',
                     name: 'cityCode',
                     message: 'Which code corresponds to the city ' + questionData.city + ' and country ' + questionData.country,
@@ -110,22 +139,107 @@ function prepareQuestions(answers) {ß
                         return true;
                     }
                 });
-        } else {
-            questions.push(
-                {
+                askedBufferCityCodes.push(index);
+                break;
+
+            case 1:
+                questions.push({
                     type: 'Input',
                     name: 'city',
-                    message: 'Which city corresponds to the cityCode ' + questionData.cityCode + ' and country ' + questionData.country,
+                    message: 'Which city corresponds to the code ' + questionData.cityCode + ' and country ' + questionData.country,
                     validate: function (answer) {
-                        if (answer.trim().toUpperCase() !== questionData.city.trim().toUpperCase()) {
+                        if (answer.trim().toUpperCase().localeCompare(questionData.city.trim().toUpperCase())) {
                             return 'Incorrect answer, try again';
                         }
                         return true;
                     }
                 });
-        }
+                askedBufferCityCodes.push(index);
+                break;
 
-        askedBuffer.push(index);
+            case 2:
+                questions.push({
+                    type: 'Input',
+                    name: 'city',
+                    message: 'Which city corresponds to the code ' + questionData.cityCode,
+                    validate: function (answer) {
+                        if (answer.trim().toUpperCase().localeCompare(questionData.city.trim().toUpperCase())) {
+                            return 'Incorrect answer, try again';
+                        }
+                        return true;
+                    }
+                });
+                questions.push({
+                    type: 'Input',
+                    name: 'code',
+                    message: 'Which country corresponds to the city ' + questionData.city,
+                    validate: function (answer) {
+                        if (answer.trim().toUpperCase().localeCompare(questionData.country.trim().toUpperCase())) {
+                            return 'Incorrect answer, try again';
+                        }
+                        return true;
+                    }
+                });
+                askedBufferCityCodes.push(index);
+                break;
+            case 3:
+                questions.push({
+                    type: 'Input',
+                    name: 'code',
+                    message: 'Which code corresponds to the city ' + questionData.city,
+                    validate: function (answer) {
+                        if ((answer.trim().toUpperCase()).localeCompare(questionData.cityCode.trim().toUpperCase())) {
+                            return 'Incorrect answer, try again';
+                        }
+                        return true;
+                    }
+                });
+                questions.push({
+                    type: 'Input',
+                    name: 'code',
+                    message: 'Which country corresponds to the city ' + questionData.city,
+                    validate: function (answer) {
+                        if ((answer.trim().toUpperCase()).localeCompare(questionData.country.trim().toUpperCase())) {
+                            return 'Incorrect answer, try again';
+                        }
+                        return true;
+                    }
+                });
+                askedBufferCityCodes.push(index);
+                break;
+            case 4:
+                questions.push({
+                    type: 'Input',
+                    name: 'code',
+                    message: 'Which code corresponds to the airline company ' + questionData.airlineName,
+                    validate: function (answer) {
+                        if ((answer.trim().toUpperCase()).localeCompare(questionData.airlineCode.trim().toUpperCase())) {
+                            return 'Incorrect answer, try again';
+                        }
+                        return true;
+                    }
+                });
+                askedBufferAirlines.push(index);
+                break;
+            case 5:
+                questions.push({
+                    type: 'Input',
+                    name: 'name',
+                    message: 'Which name corresponds to the airline code ' + questionData.airlineCode,
+                    validate: function (answer) {
+                        if ((answer.trim().toUpperCase()).localeCompare(questionData.airlineName.trim().toUpperCase())) {
+                            return 'Incorrect answer, try again';
+                        }
+                        return true;
+                    }
+                });
+                askedBufferAirlines.push(index);
+                break;
+            default:
+                console.log("Error in switch selector of questions");
+                break;
+
+        }
 
         q++;
     }
@@ -136,7 +250,7 @@ function prepareQuestions(answers) {ß
 
 function getRandomInt(min, max, askedBuffer) {
     "use strict";
-    let index = Math.floor(Math.random() * (max - min + 1)) + min;
+    let index = Math.floor(Math.random() * (max + 1 - min)) + min;
     if(askedBuffer.indexOf(index) > -1) {
         return getRandomInt(min, max, askedBuffer);
     }
