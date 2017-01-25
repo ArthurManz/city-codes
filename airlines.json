@@ -1,0 +1,177 @@
+[
+  {
+    "airlineName": "Aeroflot",
+    "airlineCode": "SU",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Aerolíneas Argentinas",
+    "airlineCode": "AR",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "AeroMexico",
+    "airlineCode": "AM",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Air Europa",
+    "airlineCode": "UX",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Air France",
+    "airlineCode": "AF",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Alitalia",
+    "airlineCode": "AZ",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "China Airlines",
+    "airlineCode": "CI",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "China Eastern Airlines/Shanghai Airlines",
+    "airlineCode": "MU/FM",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "China Southern Airlines",
+    "airlineCode": "CZ",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Czech Airlines",
+    "airlineCode": "OK",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Delta Air Lines",
+    "airlineCode": "DL",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Garuda Indonesia",
+    "airlineCode": "GA",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Kenya Airways",
+    "airlineCode": "KQ",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "KLM",
+    "airlineCode": "KL",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Korean Air",
+    "airlineCode": "KE",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Middle East Airlines",
+    "airlineCode": "ME",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Saudi Arabian Airlines",
+    "airlineCode": "SV",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Tarom",
+    "airlineCode": "RO",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Vietnam Airlines",
+    "airlineCode": "VN",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Xiamen Airlines",
+    "airlineCode": "MF",
+    "group": "SKYTEAM"
+  },
+  {
+    "airlineName": "Aer Lingus",
+    "airlineCode": "EI",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Air Canada",
+    "airlineCode": "AC",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Alaska Airlines",
+    "airlineCode": "AS",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Avianca",
+    "airlineCode": "AV",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "British Airways",
+    "airlineCode": "BA",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Comair",
+    "airlineCode": "MN",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Cyprus Airways",
+    "airlineCode": "CY",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Emirates",
+    "airlineCode": "EK",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Estonian Air",
+    "airlineCode": "OV",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Gulf Air",
+    "airlineCode": "GF",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "KLM Cityhopper",
+    "airlineCode": "KL",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Malaysia Airlines",
+    "airlineCode": "MH",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "TAM",
+    "airlineCode": "JJ",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Transavia.com",
+    "airlineCode": "HV",
+    "group": "OTHER"
+  },
+  {
+    "airlineName": "Ukraine International Airlines",
+    "airlineCode": "PS",
+    "group": "OTHER"
+  }
+]
